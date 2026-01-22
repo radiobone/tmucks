@@ -62,7 +62,6 @@ fn run_app<B: ratatui::backend::Backend>(
                         KeyCode::Char('Q') => return Ok(()),
                         KeyCode::Char('J') => app.next(),
                         KeyCode::Char('K') => app.previous(),
-                        K
                         KeyCode::Down => app.next(),
                         KeyCode::Up => app.previous(),
                         KeyCode::Enter => {
@@ -164,33 +163,6 @@ fn ui(f: &mut Frame, app: &mut App) {
 }
 
 fn render_header(f: &mut Frame, app: &mut App, area: Rect) {
-    let header_chunks = Layout::default()
-        .direction(Direction::Horizontal)
-        .constraints([Constraint::Min(40), Constraint::Length(30)])
-        .split(area);
-
-    // Title
-    let title = Paragraph::new("tmux config manager")
-        .style(
-            Style::default()
-                .fg(Color::Cyan)
-                .add_modifier(Modifier::BOLD),
-        )
-        .block(
-            Block::default()
-                .borders(Borders::ALL)
-                .border_style(Style::default().fg(Color::Cyan))
-                .border_type(BorderType::Rounded)
-                .title("tmucks")
-                .title_style(
-                    Style::default()
-                        .fg(Color::Yellow)
-                        .add_modifier(Modifier::BOLD),
-                ),
-        )
-        .alignment(Alignment::Center);
-    f.render_widget(title, header_chunks[0]);
-
     // Stats
     let stats_text = if app.config_manager.configs.is_empty() {
         vec![Line::from(Span::styled(
@@ -227,19 +199,19 @@ fn render_header(f: &mut Frame, app: &mut App, area: Rect) {
                 .borders(Borders::ALL)
                 .border_style(Style::default().fg(Color::Blue))
                 .border_type(BorderType::Rounded)
-                .title("stats"),
+                .title("you have..."),
         )
         .alignment(Alignment::Center);
-    f.render_widget(stats, header_chunks[1]);
+    f.render_widget(stats, area);
 }
 
 fn render_main_content(f: &mut Frame, app: &mut App, area: Rect) {
     if app.config_manager.configs.is_empty() {
         let empty_content = vec![
             Line::from(""),
-            Line::from(vec![Span::raw(" no configuration files found")]),
+            Line::from(vec![Span::raw(" no configuration files found :(")]),
             Line::from(""),
-            Line::from("add your first config:"),
+            Line::from("add your first config!"),
             Line::from(vec![
                 Span::styled("  $ ", Style::default().fg(Color::Cyan)),
                 Span::styled(
@@ -256,7 +228,11 @@ fn render_main_content(f: &mut Frame, app: &mut App, area: Rect) {
                         .fg(Color::Cyan)
                         .add_modifier(Modifier::BOLD),
                 ),
-                Span::raw(" to save current config"),
+                Span::styled(" to save current config",
+                    Style::default()
+                        .fg(Color::Red)
+                        .add_modifier(Modifier::BOLD),
+                )       
             ]),
         ];
 
