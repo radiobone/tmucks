@@ -59,6 +59,10 @@ fn run_app<B: ratatui::backend::Backend>(
                         KeyCode::Char('q') => return Ok(()),
                         KeyCode::Char('j') => app.next(),
                         KeyCode::Char('k') => app.previous(),
+                        KeyCode::Char('Q') => return Ok(()),
+                        KeyCode::Char('J') => app.next(),
+                        KeyCode::Char('K') => app.previous(),
+                        K
                         KeyCode::Down => app.next(),
                         KeyCode::Up => app.previous(),
                         KeyCode::Enter => {
@@ -66,16 +70,16 @@ fn run_app<B: ratatui::backend::Backend>(
                                 app.set_status_message(format!("- error: {}", e));
                             }
                         }
-                        KeyCode::Char('d') => {
+                        KeyCode::Char('d') | KeyCode::Char('D') => {
                             if let Err(e) = app.delete_config() {
                                 app.set_status_message(format!("- error: {}", e));
                             }
                         }
-                        KeyCode::Char('s') => {
+                        KeyCode::Char('s') | KeyCode::Char('S') => {
                             app.input_mode = InputMode::Saving;
                             app.input_buffer.clear();
                         }
-                        KeyCode::Char('u') => {
+                        KeyCode::Char('u') | KeyCode::Char('U') => {
                             app.start_update_mode();
                         }
                         _ => {}
