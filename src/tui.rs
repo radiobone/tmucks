@@ -141,9 +141,9 @@ fn ui(f: &mut Frame, app: &mut App) {
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
-            Constraint::Length(5), // Header
-            Constraint::Min(0),    // Main content
-            Constraint::Length(4), // Footer/Status
+            Constraint::Length(5),      // Header
+            Constraint::Min(3),         // Main content
+            Constraint::Percentage(10), // Footer/Status (scales with terminal)
         ])
         .split(main_area);
 
