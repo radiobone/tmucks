@@ -2,6 +2,8 @@
 name = "tmucks"
 version = "0.1.0"
 edition = "2021"
+license = "gpl-3.0"
+description = "a tmux config manager for the reckless"
 
 [dependencies]
 ratatui = "0.26"
